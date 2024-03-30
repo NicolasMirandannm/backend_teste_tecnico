@@ -32,4 +32,4 @@ build/
 .vscode/
 
 ### dados gerados no container ###
-#/docker-volumes/
+/docker-volumes/
