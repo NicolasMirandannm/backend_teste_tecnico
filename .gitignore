@@ -30,3 +30,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### dados gerados no container ###
+#/docker-volumes/
