@@ -1,8 +1,8 @@
-package backend.domain.aggregates.user;
+package backend.domain.aggregate.user;
 
 import backend.comum.dddSnippets.DomainEntity;
 import backend.comum.valueObjects.UniqueIdentifier;
-import backend.domain.aggregates.user.entities.Address;
+import backend.domain.aggregate.user.entities.Address;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -17,8 +17,12 @@ public class User extends DomainEntity {
   private List<Address> addresses;
   private Address mainAddress;
   
-  public User(UniqueIdentifier id) {
+  public User(UniqueIdentifier id, String fullName, LocalDate birthDate, List<Address> addresses, Address mainAddress) {
     super(id);
+    this.fullName = fullName;
+    this.birthDate = birthDate;
+    this.addresses = addresses;
+    this.mainAddress = mainAddress;
   }
   
 }
