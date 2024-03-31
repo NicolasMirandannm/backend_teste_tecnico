@@ -1,4 +1,4 @@
-package backend.domain.user.entities;
+package backend.domain.aggregates.user.entities;
 
 import backend.comum.dddSnippets.DomainEntity;
 import backend.comum.valueObjects.UniqueIdentifier;

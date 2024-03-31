@@ -1,8 +1,8 @@
-package backend.domain.user;
+package backend.domain.aggregates.user;
 
 import backend.comum.dddSnippets.DomainEntity;
 import backend.comum.valueObjects.UniqueIdentifier;
-import backend.domain.user.entities.Address;
+import backend.domain.aggregates.user.entities.Address;
 import lombok.Getter;
 
 import java.time.LocalDate;
