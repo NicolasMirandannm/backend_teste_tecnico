@@ -36,11 +36,12 @@ public class UserFactory {
     if (birthDateValObj.isGreaterThanToday())
       throw new DomainException("Birth date cannot be greater than today.");
     
-    return new User(id, fullName, birthDate, addresses, mainAddress);
+    return new User(id, fullName, birthDateValObj, addresses, mainAddress);
   }
   
   public User createOf(String id, String fullName, LocalDate birthDate, List<Address> addresses, Address mainAddress) {
     var idValObj = UniqueIdentifier.of(id);
-    return new User(idValObj, fullName, birthDate, addresses, mainAddress);
+    var birthDateValObj = new BirthDate(birthDate);
+    return new User(idValObj, fullName, birthDateValObj, addresses, mainAddress);
   }
 }
