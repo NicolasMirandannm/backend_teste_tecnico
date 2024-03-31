@@ -11,7 +11,7 @@ import org.mockito.MockitoAnnotations;
 public class AddressFactoryUnitTest {
   
   private String streetAddress;
-  private String postalCode;
+  private String CEP;
   private String city;
   private String state;
   private Integer addressNumber;
@@ -24,7 +24,7 @@ public class AddressFactoryUnitTest {
     MockitoAnnotations.openMocks(this);
     
     streetAddress = "Address Street, 123";
-    postalCode = "12345-678";
+    CEP = "12345-678";
     city = "Campo Grande";
     state = "Mato Grosso do Sul";
     addressNumber = 123;
@@ -34,11 +34,11 @@ public class AddressFactoryUnitTest {
   void should_create_address() {
     var idString = UniqueIdentifier.generate().getValue();
     
-    var address = addressFactory.createOf(idString, streetAddress, postalCode, city, state, addressNumber);
+    var address = addressFactory.createOf(idString, streetAddress, CEP, city, state, addressNumber);
     
     Assertions.assertEquals(idString, address.getId().getValue());
     Assertions.assertEquals(streetAddress, address.getStreetAddress());
-    Assertions.assertEquals(postalCode, address.getPostalCode());
+    Assertions.assertEquals(CEP, address.getCEP());
     Assertions.assertEquals(city, address.getCity());
     Assertions.assertEquals(state, address.getState());
     Assertions.assertEquals(addressNumber, address.getAddressNumber());
@@ -46,11 +46,11 @@ public class AddressFactoryUnitTest {
   
   @Test
   void should_create_a_new_address() {
-    var address = addressFactory.createNew(streetAddress, postalCode, city, state, addressNumber);
+    var address = addressFactory.createNew(streetAddress, CEP, city, state, addressNumber);
     
     Assertions.assertNotNull(address.getId());
     Assertions.assertEquals(streetAddress, address.getStreetAddress());
-    Assertions.assertEquals(postalCode, address.getPostalCode());
+    Assertions.assertEquals(CEP, address.getCEP());
     Assertions.assertEquals(city, address.getCity());
     Assertions.assertEquals(state, address.getState());
     Assertions.assertEquals(addressNumber, address.getAddressNumber());
@@ -61,7 +61,7 @@ public class AddressFactoryUnitTest {
     streetAddress = null;
     
     Exception exception = Assertions.assertThrows(DomainException.class, () -> {
-      addressFactory.createNew(streetAddress, postalCode, city, state, addressNumber);
+      addressFactory.createNew(streetAddress, CEP, city, state, addressNumber);
     });
     
     Assertions.assertEquals("Street address cannot be null", exception.getMessage());
@@ -69,10 +69,10 @@ public class AddressFactoryUnitTest {
   
   @Test
   void should_throw_exception_when_postal_code_is_empty() {
-    postalCode = null;
+    CEP = null;
     
     Exception exception = Assertions.assertThrows(DomainException.class, () -> {
-      addressFactory.createNew(streetAddress, postalCode, city, state, addressNumber);
+      addressFactory.createNew(streetAddress, CEP, city, state, addressNumber);
     });
     
     Assertions.assertEquals("CEP cannot be null", exception.getMessage());
@@ -83,7 +83,7 @@ public class AddressFactoryUnitTest {
     city = null;
     
     Exception exception = Assertions.assertThrows(DomainException.class, () -> {
-      addressFactory.createNew(streetAddress, postalCode, city, state, addressNumber);
+      addressFactory.createNew(streetAddress, CEP, city, state, addressNumber);
     });
     
     Assertions.assertEquals("City cannot be null", exception.getMessage());
@@ -94,7 +94,7 @@ public class AddressFactoryUnitTest {
     state = null;
     
     Exception exception = Assertions.assertThrows(DomainException.class, () -> {
-      addressFactory.createNew(streetAddress, postalCode, city, state, addressNumber);
+      addressFactory.createNew(streetAddress, CEP, city, state, addressNumber);
     });
     
     Assertions.assertEquals("State cannot be null", exception.getMessage());
@@ -105,7 +105,7 @@ public class AddressFactoryUnitTest {
     addressNumber = null;
     
     Exception exception = Assertions.assertThrows(DomainException.class, () -> {
-      addressFactory.createNew(streetAddress, postalCode, city, state, addressNumber);
+      addressFactory.createNew(streetAddress, CEP, city, state, addressNumber);
     });
     
     Assertions.assertEquals("Address number cannot be null", exception.getMessage());

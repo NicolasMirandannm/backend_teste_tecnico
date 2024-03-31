@@ -6,7 +6,7 @@ import backend.domain.aggregate.user.entities.Address;
 public class AddressBuilder {
   private UniqueIdentifier id;
   private String streetAddress;
-  private String postalCode;
+  private String CEP;
   private String city;
   private String state;
   private Integer addressNumber;
@@ -29,7 +29,7 @@ public class AddressBuilder {
   }
   
   public AddressBuilder withPostalCode(String postalCode) {
-    this.postalCode = postalCode;
+    this.CEP = postalCode;
     return this;
   }
   
@@ -49,6 +49,6 @@ public class AddressBuilder {
   }
   
   public Address build() {
-    return new Address(id, streetAddress, postalCode, city, state, addressNumber);
+    return new Address(id, streetAddress, CEP, city, state, addressNumber);
   }
 }
