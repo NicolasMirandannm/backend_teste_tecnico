@@ -1,6 +1,6 @@
-package comum.dddSnippets;
+package backend.comum.dddSnippets;
 
-import comum.valueObjects.UniqueIdentifier;
+import backend.comum.valueObjects.UniqueIdentifier;
 
 public interface Repository<T extends DomainEntity> {
     void save(T entity);

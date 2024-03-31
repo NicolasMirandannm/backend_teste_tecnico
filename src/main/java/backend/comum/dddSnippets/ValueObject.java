@@ -1,4 +1,4 @@
-package comum.dddSnippets;
+package backend.comum.dddSnippets;
 
 public class ValueObject<T> {
   private final T value;

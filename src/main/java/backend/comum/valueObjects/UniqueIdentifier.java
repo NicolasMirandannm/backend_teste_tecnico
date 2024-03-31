@@ -1,7 +1,7 @@
-package comum.valueObjects;
+package backend.comum.valueObjects;
 
-import comum.dddSnippets.ValueObject;
-import comum.exception.DomainException;
+import backend.comum.exception.DomainException;
+import backend.comum.dddSnippets.ValueObject;
 
 import java.util.UUID;
 
