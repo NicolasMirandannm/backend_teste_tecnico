@@ -28,8 +28,8 @@ public class AddressBuilder {
     return this;
   }
   
-  public AddressBuilder withPostalCode(String postalCode) {
-    this.CEP = postalCode;
+  public AddressBuilder withCEP(String CEP) {
+    this.CEP = CEP;
     return this;
   }
   

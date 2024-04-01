@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserUnitTest {
@@ -27,7 +26,7 @@ public class UserUnitTest {
       .withStreetAddress("Address")
       .withCity("Campo Grande")
       .withState("Mato Grosso do Sul")
-      .withPostalCode("12345-678")
+      .withCEP("12345-678")
       .build();
     
     var anotherAddress = AddressBuilder
@@ -36,7 +35,7 @@ public class UserUnitTest {
       .withStreetAddress("Another Address")
       .withCity("Campo Grande")
       .withState("Mato Grosso do Sul")
-      .withPostalCode("87654-321")
+      .withCEP("87654-321")
       .build();
     
     user = UserBuilder

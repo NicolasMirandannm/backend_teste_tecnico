@@ -55,7 +55,7 @@ public class UserCreationServiceUnitTest {
       .withStreetAddress("Rua 1")
       .withCity("Campo Grande")
       .withState("Mato Grosso do Sul")
-      .withPostalCode("12345-678")
+      .withCEP("12345-678")
       .build();
     
     var user = UserBuilder
