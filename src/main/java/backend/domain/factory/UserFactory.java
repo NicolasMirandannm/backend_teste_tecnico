@@ -15,10 +15,6 @@ import java.util.List;
 @Service
 public class UserFactory {
   
-  public User createNew(String fullName, LocalDate birthDate) {
-    return createNewOf(fullName, birthDate, new ArrayList<>(), null);
-  }
-  
   public User createNew(String fullName, LocalDate birthDate, List<Address> addresses) {
     var addressesSafe = ObjectUtils.isEmpty(addresses) ? new ArrayList<Address>() : addresses;
     var mainAddress = addressesSafe.stream().findFirst().orElse(null);

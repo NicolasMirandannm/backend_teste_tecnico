@@ -1,6 +1,6 @@
 package backend.domain.aggregate.user.valueObjects;
 
-import backend.comum.dddSnippets.ValueObject;
+import backend.comum.snippets.ValueObject;
 import backend.comum.exception.DomainException;
 
 import java.time.LocalDate;

@@ -1,6 +1,6 @@
 package backend.domain.aggregate.user.entities;
 
-import backend.comum.dddSnippets.DomainEntity;
+import backend.comum.snippets.DomainEntity;
 import backend.comum.valueObjects.UniqueIdentifier;
 import lombok.Getter;
 

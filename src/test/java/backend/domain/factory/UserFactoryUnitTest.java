@@ -3,6 +3,7 @@ package backend.domain.factory;
 import backend.comum.exception.DomainException;
 import backend.comum.valueObjects.UniqueIdentifier;
 import backend.domain.aggregate.user.entities.Address;
+import backend.domain.aggregate.user.valueObjects.BirthDate;
 import backend.domain.builder.AddressBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,7 @@ public class UserFactoryUnitTest {
   
   private String fullName;
   private LocalDate birthDate;
+  private BirthDate birthDateValueObject;
   private Address address;
   
   @InjectMocks
@@ -28,6 +30,7 @@ public class UserFactoryUnitTest {
     
     fullName = "Nicolas Leonardo Miranda Lima";
     birthDate = LocalDate.of(2002, 10, 10);
+    birthDateValueObject = new BirthDate(birthDate);
     address = AddressBuilder
       .anAddress()
       .withId(UniqueIdentifier.generate())
@@ -38,23 +41,14 @@ public class UserFactoryUnitTest {
       .build();
   }
   
-  @Test
-  void should_create_a_new_user_without_address() {
-    var user = userFactory.createNew(fullName, birthDate);
-    
-    Assertions.assertNotNull(user.getId());
-    Assertions.assertEquals(fullName, user.getFullName());
-    Assertions.assertEquals(birthDate, user.getBirthDate());
-    Assertions.assertTrue(user.getAddresses().isEmpty());
-    Assertions.assertNull(user.getMainAddress());
-  }
+ 
   
   @Test
   void should_throw_exception_when_fullName_is_null() {
     fullName = null;
    
     Exception exception = Assertions.assertThrows(DomainException.class, () ->
-      userFactory.createNew(fullName, birthDate));
+      userFactory.createNew(fullName, birthDate, List.of()));
     
     Assertions.assertEquals("Full name cannot be empty.", exception.getMessage());
   }
@@ -64,7 +58,7 @@ public class UserFactoryUnitTest {
     fullName = "";
     
     Exception exception = Assertions.assertThrows(DomainException.class, () ->
-      userFactory.createNew(fullName, birthDate));
+      userFactory.createNew(fullName, birthDate, List.of()));
     
     Assertions.assertEquals("Full name cannot be empty.", exception.getMessage());
   }
@@ -74,7 +68,7 @@ public class UserFactoryUnitTest {
     birthDate = null;
     
     Exception exception = Assertions.assertThrows(DomainException.class, () ->
-      userFactory.createNew(fullName, birthDate));
+      userFactory.createNew(fullName, birthDate, List.of()));
     
     Assertions.assertEquals("Birth date cannot be empty.", exception.getMessage());
   }
@@ -84,7 +78,7 @@ public class UserFactoryUnitTest {
     birthDate = LocalDate.now().plusDays(1);
     
     Exception exception = Assertions.assertThrows(DomainException.class, () ->
-      userFactory.createNew(fullName, birthDate));
+      userFactory.createNew(fullName, birthDate, List.of()));
     
     Assertions.assertEquals("Birth date cannot be greater than today.", exception.getMessage());
   }
@@ -95,7 +89,7 @@ public class UserFactoryUnitTest {
     
     Assertions.assertNotNull(user.getId());
     Assertions.assertEquals(fullName, user.getFullName());
-    Assertions.assertEquals(birthDate, user.getBirthDate());
+    Assertions.assertEquals(birthDateValueObject, user.getBirthDate());
     Assertions.assertEquals(1, user.getAddresses().size());
     Assertions.assertEquals(address, user.getMainAddress());
   }
@@ -106,7 +100,7 @@ public class UserFactoryUnitTest {
     
     Assertions.assertNotNull(user.getId());
     Assertions.assertEquals(fullName, user.getFullName());
-    Assertions.assertEquals(birthDate, user.getBirthDate());
+    Assertions.assertEquals(birthDateValueObject, user.getBirthDate());
     Assertions.assertTrue(user.getAddresses().isEmpty());
     Assertions.assertNull(user.getMainAddress());
   }
@@ -119,7 +113,7 @@ public class UserFactoryUnitTest {
     
     Assertions.assertEquals(idString, user.getId().getValue());
     Assertions.assertEquals(fullName, user.getFullName());
-    Assertions.assertEquals(birthDate, user.getBirthDate());
+    Assertions.assertEquals(birthDateValueObject, user.getBirthDate());
     Assertions.assertEquals(1, user.getAddresses().size());
     Assertions.assertEquals(address, user.getMainAddress());
   }

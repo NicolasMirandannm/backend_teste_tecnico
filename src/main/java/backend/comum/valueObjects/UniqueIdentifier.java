@@ -1,7 +1,7 @@
 package backend.comum.valueObjects;
 
 import backend.comum.exception.DomainException;
-import backend.comum.dddSnippets.ValueObject;
+import backend.comum.snippets.ValueObject;
 
 import java.util.UUID;
 

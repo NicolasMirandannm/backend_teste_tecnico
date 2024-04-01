@@ -1,7 +1,9 @@
-package backend.comum.dddSnippets;
+package backend.comum.snippets;
 
 import backend.comum.valueObjects.UniqueIdentifier;
+import lombok.Getter;
 
+@Getter
 public abstract class DomainEntity {
   protected UniqueIdentifier id;
   
@@ -9,11 +11,11 @@ public abstract class DomainEntity {
     this.id = id;
   }
   
-  public UniqueIdentifier getId() {
-    return id;
-  }
-  
   public String getIdValue() {
     return id.getValue();
+  }
+  
+  public Boolean isSameEntity(DomainEntity entity) {
+    return id.equals(entity.id);
   }
 }

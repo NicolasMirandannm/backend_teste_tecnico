@@ -1,13 +1,12 @@
 package backend.domain.aggregate.user;
 
-import backend.comum.dddSnippets.DomainEntity;
+import backend.comum.snippets.DomainEntity;
 import backend.comum.exception.DomainException;
 import backend.comum.valueObjects.UniqueIdentifier;
 import backend.domain.aggregate.user.entities.Address;
 import backend.domain.aggregate.user.valueObjects.BirthDate;
 import lombok.Getter;
 
-import java.time.LocalDate;
 import java.util.List;
 
 

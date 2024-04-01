@@ -1,4 +1,4 @@
-package backend.comum.dddSnippets;
+package backend.comum.snippets;
 
 import backend.comum.valueObjects.UniqueIdentifier;
 
