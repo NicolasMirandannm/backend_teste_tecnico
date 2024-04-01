@@ -33,7 +33,7 @@ public class AddressMapper implements Mapper<AddressDocument, Address> {
   public AddressDocument toPersistence(Address address) {
     InfraException.whenIsNull(address, "Cannot map a null adress entity to document schema address.");
     
-    var id = address.getId().getValue();
+    var id = address.getIdValue();
     var streetAddress = address.getStreetAddress();
     var CEP = address.getCEP();
     var city = address.getCity();
