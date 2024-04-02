@@ -6,6 +6,7 @@ import backend.domain.aggregate.user.User;
 import backend.domain.aggregate.user.entities.Address;
 import backend.domain.factory.AddressFactory;
 import backend.domain.factory.UserFactory;
+import backend.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,8 @@ public class UserCreationServiceImpl implements UserCreationService {
   
   private final UserFactory userFactory;
   private final AddressFactory addressFactory;
+  private final UserRepository userRepository;
   
-  //todo implementar repositorio
   
   @Override
   public UserDto perform(UserDto userDto) {
@@ -29,6 +30,8 @@ public class UserCreationServiceImpl implements UserCreationService {
       userDto.getDataNascimento(),
       addresses
     );
+    
+    userRepository.save(user);
 
     return mapToDto(user);
   }

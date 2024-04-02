@@ -15,7 +15,12 @@ public abstract class DomainEntity {
     return id.getValue();
   }
   
-  public Boolean isSameEntity(DomainEntity entity) {
-    return id.equals(entity.id);
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    
+    DomainEntity that = (DomainEntity) obj;
+    return id.equals(that.id);
   }
 }

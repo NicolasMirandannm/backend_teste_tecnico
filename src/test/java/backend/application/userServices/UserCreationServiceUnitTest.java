@@ -4,11 +4,13 @@ import backend.application.addressServices.dto.AddressDto;
 import backend.application.userServices.creation.UserCreationServiceImpl;
 import backend.application.userServices.dto.UserDto;
 import backend.comum.valueObjects.UniqueIdentifier;
+import backend.domain.aggregate.user.User;
 import backend.domain.aggregate.user.valueObjects.BirthDate;
 import backend.domain.builder.AddressBuilder;
 import backend.domain.builder.UserBuilder;
 import backend.domain.factory.AddressFactory;
 import backend.domain.factory.UserFactory;
+import backend.domain.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +27,8 @@ public class UserCreationServiceUnitTest {
   private String name;
   private LocalDate birthDate;
   private AddressDto addressDto;
+  private UserDto userDto;
+  private User user;
   
   @InjectMocks
   private UserCreationServiceImpl userCreationService;
@@ -34,6 +38,9 @@ public class UserCreationServiceUnitTest {
   
   @Mock
   private AddressFactory addressFactory;
+  
+  @Mock
+  private UserRepository userRepository;
   
   @BeforeEach
   void setup() {
@@ -49,6 +56,14 @@ public class UserCreationServiceUnitTest {
       123
     );
     
+    userDto = new UserDto(
+      null,
+      name,
+      birthDate,
+      List.of(addressDto),
+      addressDto
+    );
+    
     var address = AddressBuilder
       .anAddress()
       .withId(UniqueIdentifier.generate())
@@ -58,7 +73,7 @@ public class UserCreationServiceUnitTest {
       .withCEP("12345-678")
       .build();
     
-    var user = UserBuilder
+    user = UserBuilder
       .anUser()
       .withId(UniqueIdentifier.generate())
       .withFullName(name)
@@ -74,14 +89,6 @@ public class UserCreationServiceUnitTest {
   
   @Test
   void should_create_user() {
-    var userDto = new UserDto(
-      null,
-      name,
-      birthDate,
-      List.of(addressDto),
-      addressDto
-    );
-    
     var userCreated = userCreationService.perform(userDto);
     
     Assertions.assertNotNull(userCreated.getId());
@@ -89,5 +96,12 @@ public class UserCreationServiceUnitTest {
     Assertions.assertEquals(userDto.getDataNascimento(), userCreated.getDataNascimento());
     Assertions.assertEquals(1, userCreated.getEnderecos().size());
     Assertions.assertNotNull(userCreated.getEnderecoPrincipal());
+  }
+  
+  @Test
+  void should_save_the_created_user() {
+    var userCreated = userCreationService.perform(userDto);
+    
+    Mockito.verify(userRepository).save(user);
   }
 }

@@ -7,6 +7,7 @@ import backend.domain.aggregate.user.entities.Address;
 import backend.domain.aggregate.user.valueObjects.BirthDate;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -31,5 +32,18 @@ public class User extends DomainEntity {
       .filter(address -> address.getId().equals(targetMainAddressId))
       .findFirst()
       .orElseThrow(() -> new DomainException("Address id not found in addresses of this user."));
+  }
+  
+  
+  public void updatePersonalData(String newFullName, LocalDate newBirthDate) {
+    DomainException.whenIsNullOrEmpty(newFullName, "New full name field cannot be null or empty.");
+    DomainException.whenIsNull(newBirthDate, "New birth date field cannot be null.");
+    
+    var birthDate = new BirthDate(newBirthDate);
+    if (birthDate.isGreaterThanToday())
+      throw new DomainException("New birth date cannot be greater than today.");
+    
+    fullName = newFullName;
+    this.birthDate = birthDate;
   }
 }

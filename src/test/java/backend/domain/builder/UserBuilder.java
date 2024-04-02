@@ -16,6 +16,7 @@ public class UserBuilder {
   private Address mainAddress;
   
   private UserBuilder() {
+    this.addresses = List.of();
   }
   
   public static UserBuilder anUser() {

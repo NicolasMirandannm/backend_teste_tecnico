@@ -65,4 +65,44 @@ public class UserUnitTest {
     
     Assertions.assertEquals("Address id not found in addresses of this user.", exception.getMessage());
   }
+  
+  @Test
+  void should_update_personal_data() {
+    var newFullName = "Nicolas Lima";
+    var newBirthDate = LocalDate.of(2002, 10, 11);
+    
+    user.updatePersonalData(newFullName, newBirthDate);
+    
+    Assertions.assertEquals(newFullName, user.getFullName());
+    Assertions.assertEquals(newBirthDate, user.getBirthDate().getValue());
+  }
+  
+  @Test
+  void should_throw_an_exception_when_name_updated_is_null() {
+    Exception exception = Assertions.assertThrows(DomainException.class, () -> {
+      user.updatePersonalData(null, user.getBirthDate().getValue());
+    });
+    
+    Assertions.assertEquals("New full name field cannot be null or empty.", exception.getMessage());
+  }
+  
+  @Test
+  void should_throw_an_exception_when_birth_date_updated_is_null() {
+    Exception exception = Assertions.assertThrows(DomainException.class, () -> {
+      user.updatePersonalData(user.getFullName(), null);
+    });
+    
+    Assertions.assertEquals("New birth date field cannot be null.", exception.getMessage());
+  }
+  
+  @Test
+  void should_throw_an_exception_when_birth_date_is_invalid() {
+    var newBirthDate = LocalDate.now().plusDays(1);
+    
+    Exception exception = Assertions.assertThrows(DomainException.class, () -> {
+      user.updatePersonalData(user.getFullName(), newBirthDate);
+    });
+    
+    Assertions.assertEquals("New birth date cannot be greater than today.", exception.getMessage());
+  }
 }
