@@ -100,7 +100,7 @@ public class UserCreationServiceUnitTest {
   
   @Test
   void should_save_the_created_user() {
-    var userCreated = userCreationService.perform(userDto);
+    userCreationService.perform(userDto);
     
     Mockito.verify(userRepository).save(user);
   }

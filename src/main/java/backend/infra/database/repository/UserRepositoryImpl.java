@@ -6,6 +6,7 @@ import backend.domain.repository.UserRepository;
 import backend.infra.database.documents.UserDocument;
 import backend.infra.database.mapper.Mapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
@@ -28,9 +29,10 @@ public class UserRepositoryImpl implements UserRepository {
   }
   
   @Override
-  public void delete(User user) {
-    var userDocument = mapper.toPersistence(user);
-    mongoTemplate.remove(userDocument);
+  public void delete(UniqueIdentifier id) {
+    var userDocument = mongoTemplate.findById(id.getValue(), UserDocument.class);
+    if (userDocument != null)
+      mongoTemplate.remove(userDocument);
   }
   
   @Override
@@ -41,7 +43,8 @@ public class UserRepositoryImpl implements UserRepository {
   
   @Override
   public List<User> findByName(String name) {
-    var userDocuments = mongoTemplate.find(query(where("fullName").is(name)), UserDocument.class);
+    var userDocuments = mongoTemplate.find(
+      query(where("fullName").alike(Example.of(name))), UserDocument.class);
     return userDocuments.stream().map(mapper::toDomain).toList();
   }
 }
