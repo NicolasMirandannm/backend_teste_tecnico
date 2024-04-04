@@ -105,4 +105,21 @@ public class UserUnitTest {
     
     Assertions.assertEquals("New birth date cannot be greater than today.", exception.getMessage());
   }
+  
+  @Test
+  void should_add_new_address() {
+    var newAddress = AddressBuilder
+      .anAddress()
+      .withId(UniqueIdentifier.generate())
+      .withStreetAddress("New Address")
+      .withCity("Campo Grande")
+      .withState("Mato Grosso do Sul")
+      .withCEP("54321-876")
+      .build();
+    
+    user.addAddress(newAddress);
+    
+    Assertions.assertEquals(3, user.getAddresses().size());
+    Assertions.assertEquals(newAddress, user.getAddresses().get(2));
+  }
 }
