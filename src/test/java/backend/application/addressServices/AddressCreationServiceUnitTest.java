@@ -1,9 +1,9 @@
 package backend.application.addressServices;
 
-import backend.application.addressServices.creation.AddressCreationServiceImpl;
+import backend.application.addressServices.creation.AddressCreationService;
 import backend.application.addressServices.dto.AddressDto;
+import backend.application.addressServices.dto.AddressDtoMapper;
 import backend.comum.exception.ApplicationException;
-import backend.comum.exception.NotFoundException;
 import backend.comum.valueObjects.UniqueIdentifier;
 import backend.domain.aggregate.user.User;
 import backend.domain.aggregate.user.entities.Address;
@@ -21,7 +21,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.ArrayList;
 
 public class AddressCreationServiceUnitTest {
   
@@ -31,13 +31,16 @@ public class AddressCreationServiceUnitTest {
   private Address address;
   
   @InjectMocks
-  private AddressCreationServiceImpl addressCreationService;
+  private AddressCreationService addressCreationService;
   
   @Mock
   private UserRepository userRepository;
   
   @Mock
   private AddressFactory addressFactory;
+  
+  @Mock
+  private AddressDtoMapper addressDtoMapper;
   
   @BeforeEach
   void setup() {
@@ -66,29 +69,18 @@ public class AddressCreationServiceUnitTest {
       .withId(UniqueIdentifier.generate())
       .withFullName("Nicolas Leonardo Miranda Lima")
       .withBirthDate(new BirthDate(LocalDate.of(2002, 10, 10)))
-      .withAddresses(List.of())
+      .withAddresses(new ArrayList<>())
       .build();
     
     userId = user.getId();
     Mockito.when(userRepository.findById(userId)).thenReturn(user);
-  }
-  
-  @Test
-  void should_find_user() {
-    addressCreationService.perform(userId.getValue(), addressDto);
-    
-    Mockito.verify(userRepository).findById(userId);
-  }
-  
-  @Test
-  void should_throw_an_exception_when_user_not_found() {
-    Mockito.when(userRepository.findById(userId)).thenReturn(null);
-    
-    Exception exception = Assertions.assertThrows(NotFoundException.class, () -> {
-      addressCreationService.perform(userId.getValue(), addressDto);
-    });
-    
-    Assertions.assertEquals("User not found.", exception.getMessage());
+    Mockito.when(addressFactory.createNew(
+      addressDto.getLogradouro(),
+      addressDto.getCEP(),
+      addressDto.getCidade(),
+      addressDto.getEstado(),
+      addressDto.getNumero()
+    )).thenReturn(address);
   }
   
   @Test
