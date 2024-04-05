@@ -1,17 +1,21 @@
 package backend.domain.aggregate.user;
 
+import backend.comum.exception.ApplicationException;
 import backend.comum.snippets.DomainEntity;
 import backend.comum.exception.DomainException;
 import backend.comum.valueObjects.UniqueIdentifier;
 import backend.domain.aggregate.user.entities.Address;
 import backend.domain.aggregate.user.valueObjects.BirthDate;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 
 @Getter
+@Setter
 public class User extends DomainEntity {
   
   private String fullName;
@@ -23,7 +27,7 @@ public class User extends DomainEntity {
     super(id);
     this.fullName = fullName;
     this.birthDate = birthDate;
-    this.addresses =  addresses == null ? List.of() : addresses;
+    this.addresses =  addresses == null ? new ArrayList<>() : addresses;
     this.mainAddress = mainAddress;
   }
   
@@ -45,5 +49,12 @@ public class User extends DomainEntity {
     
     fullName = newFullName;
     this.birthDate = birthDate;
+  }
+
+  public void addAddress(Address newAddress) {
+    ApplicationException.whenIsNull(newAddress, "Cannot add an address null.");
+
+    if (addresses.isEmpty()) mainAddress = newAddress;
+    addresses.add(newAddress);
   }
 }

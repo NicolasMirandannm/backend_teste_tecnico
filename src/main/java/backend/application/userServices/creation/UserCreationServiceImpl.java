@@ -11,6 +11,7 @@ import backend.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,7 +41,7 @@ public class UserCreationServiceImpl implements UserCreationService {
   
   private List<Address> getAdresses(List<AddressDto> addresses) {
     return addresses == null
-      ? List.of()
+      ? new ArrayList<>()
       : addresses.stream().map(this::getAddress).toList();
   }
   private Address getAddress(AddressDto addressDto) {

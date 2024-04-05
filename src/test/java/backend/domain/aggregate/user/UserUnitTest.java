@@ -1,5 +1,6 @@
 package backend.domain.aggregate.user;
 
+import backend.comum.exception.ApplicationException;
 import backend.comum.exception.DomainException;
 import backend.comum.valueObjects.UniqueIdentifier;
 import backend.domain.aggregate.user.entities.Address;
@@ -11,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.ArrayList;
 
 public class UserUnitTest {
   
@@ -37,12 +38,16 @@ public class UserUnitTest {
       .withState("Mato Grosso do Sul")
       .withCEP("87654-321")
       .build();
+
+    var addresses = new ArrayList<Address>();
+    addresses.add(address);
+    addresses.add(anotherAddress);
     
     user = UserBuilder
       .anUser()
       .withFullName("Nicolas Leonardo Miranda Lima")
       .withBirthDate(new BirthDate(LocalDate.of(2002, 10, 10)))
-      .withAddresses(List.of(address, anotherAddress))
+      .withAddresses(addresses)
       .build();
   }
   
@@ -108,18 +113,30 @@ public class UserUnitTest {
   
   @Test
   void should_add_new_address() {
-    var newAddress = AddressBuilder
-      .anAddress()
-      .withId(UniqueIdentifier.generate())
-      .withStreetAddress("New Address")
-      .withCity("Campo Grande")
-      .withState("Mato Grosso do Sul")
-      .withCEP("54321-876")
-      .build();
-    
-    user.addAddress(newAddress);
+    address.setAddressNumber(4321);
+
+    user.addAddress(address);
     
     Assertions.assertEquals(3, user.getAddresses().size());
-    Assertions.assertEquals(newAddress, user.getAddresses().get(2));
+    Assertions.assertEquals(address, user.getAddresses().get(2));
+    Assertions.assertNotEquals(user.getMainAddress(), address);
+  }
+
+  @Test
+  void should_set_main_address_with_the_new_address_added_when_user_dont_have_other_address() {
+    user.setMainAddress(null);
+    user.setAddresses(new ArrayList<>());
+
+    user.addAddress(address);
+
+    Assertions.assertEquals(address, user.getMainAddress());
+  }
+
+  @Test
+  void should_throw_an_exception_when_address_added_is_null() {
+    Exception exception = Assertions.assertThrows(ApplicationException.class,
+            () -> user.addAddress(null));
+
+    Assertions.assertEquals("Cannot add an address null.", exception.getMessage());
   }
 }

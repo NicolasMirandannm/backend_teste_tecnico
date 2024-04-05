@@ -1,35 +1,23 @@
 package backend.application.userServices.dto;
 
-import backend.application.addressServices.dto.AddressDto;
+import backend.application.addressServices.dto.AddressDtoMapper;
 import backend.domain.aggregate.user.User;
-import backend.domain.aggregate.user.entities.Address;
-import backend.domain.factory.AddressFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
+@RequiredArgsConstructor
 public class UserDtoMapper {
-  
+
+  private final AddressDtoMapper addressDtoMapper;
+
   public UserDto mapToDto(User user) {
     return new UserDto(
       user.getIdValue(),
       user.getFullName(),
       user.getBirthDate().getValue(),
-      user.getAddresses().stream().map(this::mapAddressToDto).toList(),
-      mapAddressToDto(user.getMainAddress())
-    );
-  }
-  
-  private AddressDto mapAddressToDto(Address address) {
-    return new AddressDto(
-      address.getIdValue(),
-      address.getStreetAddress(),
-      address.getCEP(),
-      address.getCity(),
-      address.getState(),
-      address.getAddressNumber()
+      user.getAddresses().stream().map(addressDtoMapper::mapToDto).toList(),
+      addressDtoMapper.mapToDto(user.getMainAddress())
     );
   }
 }

@@ -3,8 +3,10 @@ package backend.domain.aggregate.user.entities;
 import backend.comum.snippets.DomainEntity;
 import backend.comum.valueObjects.UniqueIdentifier;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class Address extends DomainEntity {
   
   private String streetAddress;

@@ -1,6 +1,7 @@
 package backend.application.addressServices.creation;
 
 import backend.application.addressServices.dto.AddressDto;
+import backend.application.addressServices.dto.AddressDtoMapper;
 import backend.comum.exception.ApplicationException;
 import backend.comum.exception.NotFoundException;
 import backend.comum.valueObjects.UniqueIdentifier;
@@ -15,6 +16,7 @@ public class AddressCreationServiceImpl implements AddressCreationService {
   
   private final AddressFactory addressFactory;
   private final UserRepository userRepository;
+  private final AddressDtoMapper addressDtoMapper;
   
   @Override
   public AddressDto perform(String userId, AddressDto addressDto) {
@@ -31,7 +33,10 @@ public class AddressCreationServiceImpl implements AddressCreationService {
       addressDto.getEstado(),
       addressDto.getNumero()
     );
-    
-    return null;
+
+    user.addAddress(address);
+    userRepository.save(user);
+
+    return this.addressDtoMapper.mapToDto(address);
   }
 }
