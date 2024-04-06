@@ -139,4 +139,9 @@ public class UserUnitTest {
 
     Assertions.assertEquals("Cannot add an address null.", exception.getMessage());
   }
+
+  @Test
+  void should_find_address_and_update() {
+
+  }
 }

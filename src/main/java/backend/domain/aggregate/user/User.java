@@ -57,4 +57,8 @@ public class User extends DomainEntity {
     if (addresses.isEmpty()) mainAddress = newAddress;
     addresses.add(newAddress);
   }
+
+  public void updateAddressBy(String addressId) {
+
+  }
 }
