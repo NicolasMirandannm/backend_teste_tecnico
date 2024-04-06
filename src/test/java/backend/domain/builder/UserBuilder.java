@@ -5,7 +5,7 @@ import backend.domain.aggregate.user.User;
 import backend.domain.aggregate.user.entities.Address;
 import backend.domain.aggregate.user.valueObjects.BirthDate;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserBuilder {
@@ -16,7 +16,7 @@ public class UserBuilder {
   private Address mainAddress;
   
   private UserBuilder() {
-    this.addresses = List.of();
+    this.addresses = new ArrayList<>();
   }
   
   public static UserBuilder anUser() {

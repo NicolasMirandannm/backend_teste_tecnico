@@ -19,7 +19,14 @@ public class AddressUpdateService extends AddressAbstractService<AddressDto, Voi
   protected Void rule(User user, AddressDto addressDto) {
     ApplicationException.whenIsNull(addressDto, "AddressDto cannot be null.");
 
-//    user.updateAddressBy(addressDto.getId());
+    user.updateAddressBy(
+      addressDto.getId(),
+      addressDto.getLogradouro(),
+      addressDto.getCEP(),
+      addressDto.getCidade(),
+      addressDto.getEstado(),
+      addressDto.getNumero()
+    );
     userRepository.save(user);
     return null;
   }
