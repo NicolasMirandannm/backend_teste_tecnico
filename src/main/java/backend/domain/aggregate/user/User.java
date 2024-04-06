@@ -58,7 +58,24 @@ public class User extends DomainEntity {
     addresses.add(newAddress);
   }
 
-  public void updateAddressBy(String addressId) {
+  public void updateAddressBy(String addressId, String newStreetAddress, String newCEP, String newCity, String newState, Integer newAddressNumber) {
+    var targetAddressId = UniqueIdentifier.of(addressId);
+    var indexOfAddress = getIndexOfAddressBy(targetAddressId);
 
+    addresses.get(indexOfAddress)
+      .updateValues(newStreetAddress, newCEP, newCity, newState, newAddressNumber);
+
+    if (mainAddress.getId().equals(targetAddressId)) {
+      mainAddress.updateValues(newStreetAddress, newCEP, newCity, newState, newAddressNumber);
+    }
+  }
+
+  private Integer getIndexOfAddressBy(UniqueIdentifier id) {
+    var address = addresses.stream()
+      .filter(addr -> addr.getId().equals(id))
+      .findFirst()
+      .orElseThrow(() -> new DomainException("Address not found at user."));
+
+    return addresses.indexOf(address);
   }
 }

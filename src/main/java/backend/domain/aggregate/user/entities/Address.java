@@ -23,4 +23,12 @@ public class Address extends DomainEntity {
     this.state = state;
     this.addressNumber = addressNumber;
   }
+
+  public void updateValues(String newStreetAddress, String newCEP, String newCity, String newState, Integer newAddressNumber) {
+    this.streetAddress = newStreetAddress;
+    this.CEP = newCEP;
+    this.city = newCity;
+    this.state = newState;
+    this.addressNumber = newAddressNumber;
+  }
 }

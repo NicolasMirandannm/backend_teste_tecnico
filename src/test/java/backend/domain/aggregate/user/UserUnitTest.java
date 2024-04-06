@@ -48,6 +48,7 @@ public class UserUnitTest {
       .withFullName("Nicolas Leonardo Miranda Lima")
       .withBirthDate(new BirthDate(LocalDate.of(2002, 10, 10)))
       .withAddresses(addresses)
+      .withMainAddress(address)
       .build();
   }
   
@@ -142,6 +143,37 @@ public class UserUnitTest {
 
   @Test
   void should_find_address_and_update() {
+    var addressId = address.getIdValue();
+    var newStreetAddress = "Rua 1";
+    var newCEP = "12345-678";
+    var newCity = "Dourados";
+    var state = "Mato Grosso do Sul";
+    var newAddressNumber = 321;
 
+    user.updateAddressBy(addressId, newStreetAddress, newCEP, newCity, state, newAddressNumber);
+    var updatedAddress = user.getAddresses().get(0);
+
+    Assertions.assertEquals(newCity, updatedAddress.getCity());
+  }
+
+  @Test
+  void should_update_main_address_when_it_is_updated_in_the_addresses() {
+    var addressId = user.getMainAddress().getIdValue();
+    var newAddressNumber = 4321;
+
+    user.updateAddressBy(addressId, "", "", "", "", newAddressNumber);
+
+    Assertions.assertEquals(user.getMainAddress().getAddressNumber(), newAddressNumber);
+    Assertions.assertEquals(user.getAddresses().get(0).getAddressNumber(), newAddressNumber);
+  }
+
+  @Test
+  void should_throw_an_exception_target_address_to_update_is_not_found_in_addresses() {
+    var invalidAddressId = UniqueIdentifier.generate().getValue();
+
+    Exception exception = Assertions.assertThrows(DomainException.class, () ->
+      user.updateAddressBy(invalidAddressId, null, null, null, null, null));
+
+    Assertions.assertEquals("Address not found at user.", exception.getMessage());
   }
 }
