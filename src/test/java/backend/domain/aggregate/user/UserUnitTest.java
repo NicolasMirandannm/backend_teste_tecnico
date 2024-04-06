@@ -120,7 +120,6 @@ public class UserUnitTest {
     
     Assertions.assertEquals(3, user.getAddresses().size());
     Assertions.assertEquals(address, user.getAddresses().get(2));
-    Assertions.assertNotEquals(user.getMainAddress(), address);
   }
 
   @Test

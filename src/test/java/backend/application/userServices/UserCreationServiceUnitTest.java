@@ -3,6 +3,7 @@ package backend.application.userServices;
 import backend.application.addressServices.dto.AddressDto;
 import backend.application.userServices.creation.UserCreationServiceImpl;
 import backend.application.userServices.dto.UserDto;
+import backend.application.userServices.dto.UserDtoMapper;
 import backend.comum.valueObjects.UniqueIdentifier;
 import backend.domain.aggregate.user.User;
 import backend.domain.aggregate.user.valueObjects.BirthDate;
@@ -41,6 +42,9 @@ public class UserCreationServiceUnitTest {
   
   @Mock
   private UserRepository userRepository;
+
+  @Mock
+  private UserDtoMapper userDtoMapper;
   
   @BeforeEach
   void setup() {
@@ -89,13 +93,9 @@ public class UserCreationServiceUnitTest {
   
   @Test
   void should_create_user() {
-    var userCreated = userCreationService.perform(userDto);
+    userCreationService.perform(userDto);
     
-    Assertions.assertNotNull(userCreated.getId());
-    Assertions.assertEquals(userDto.getNomeCompleto(), userCreated.getNomeCompleto());
-    Assertions.assertEquals(userDto.getDataNascimento(), userCreated.getDataNascimento());
-    Assertions.assertEquals(1, userCreated.getEnderecos().size());
-    Assertions.assertNotNull(userCreated.getEnderecoPrincipal());
+    Mockito.verify(userDtoMapper).mapToDto(user);
   }
   
   @Test

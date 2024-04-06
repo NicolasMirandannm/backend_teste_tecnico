@@ -2,6 +2,7 @@ package backend.domain.factory;
 
 import backend.comum.exception.DomainException;
 import backend.comum.valueObjects.UniqueIdentifier;
+import backend.domain.factory.impl.AddressFactoryImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ public class AddressFactoryUnitTest {
   private Integer addressNumber;
   
   @InjectMocks
-  private AddressFactory addressFactory;
+  private AddressFactoryImpl addressFactory;
   
   @BeforeEach
   void setup() {

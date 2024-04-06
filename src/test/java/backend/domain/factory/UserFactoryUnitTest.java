@@ -5,6 +5,7 @@ import backend.comum.valueObjects.UniqueIdentifier;
 import backend.domain.aggregate.user.entities.Address;
 import backend.domain.aggregate.user.valueObjects.BirthDate;
 import backend.domain.builder.AddressBuilder;
+import backend.domain.factory.impl.UserFactoryImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ public class UserFactoryUnitTest {
   private Address address;
   
   @InjectMocks
-  private UserFactory userFactory;
+  private UserFactoryImpl userFactory;
   
   @BeforeEach
   void setup() {
