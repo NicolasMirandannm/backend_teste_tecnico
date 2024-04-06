@@ -70,6 +70,14 @@ public class User extends DomainEntity {
     }
   }
 
+  public void removeAddressBy(UniqueIdentifier addressId) {
+    var indexOfAddressToRemove = getIndexOfAddressBy(addressId);
+    addresses.remove(addresses.get(indexOfAddressToRemove));
+    if (mainAddress.getId().equals(addressId)) {
+      mainAddress = addresses.isEmpty() ? null : addresses.get(0);
+    }
+  }
+
   private Integer getIndexOfAddressBy(UniqueIdentifier id) {
     var address = addresses.stream()
       .filter(addr -> addr.getId().equals(id))

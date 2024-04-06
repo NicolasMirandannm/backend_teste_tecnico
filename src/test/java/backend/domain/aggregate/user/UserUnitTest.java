@@ -176,4 +176,34 @@ public class UserUnitTest {
 
     Assertions.assertEquals("Address not found at user.", exception.getMessage());
   }
+
+  @Test
+  void should_delete_address_by_id() {
+    var addressToDeleteId = address.getId();
+
+    user.removeAddressBy(addressToDeleteId);
+
+    Assertions.assertNotEquals(addressToDeleteId, user.getAddresses().get(0).getId());
+  }
+
+  @Test
+  void should_set_main_address_with_first_address_in_list_when_it_is_deleted() {
+    var addressToDelete = address.getId();
+
+    user.removeAddressBy(addressToDelete);
+
+    Assertions.assertNotNull(user.getMainAddress());
+  }
+
+  @Test
+  void should_set_main_address_to_null_when_it_is_deleted_and_no_have_any_other_address_at_user() {
+    user.setAddresses(new ArrayList<>());
+    user.addAddress(address);
+    var addressIdToDelete = address.getId();
+
+    user.removeAddressBy(addressIdToDelete);
+
+    Assertions.assertNull(user.getMainAddress());
+    Assertions.assertTrue(user.getAddresses().isEmpty());
+  }
 }
