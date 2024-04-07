@@ -1,6 +1,21 @@
 version: '3.8'
 
 services:
+  backend-teste-tecnico:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+      - redis
+    links:
+      - mongodb
+      - redis
+    networks:
+      - backend-network
+
   mongodb:
     image: mongo:latest
     container_name: mongodb
@@ -11,8 +26,10 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 123
     volumes:
-      - ./docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-#      - ./docker-volumes/mongodb:/data/db
+      - ./docker/docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ./docker/docker-volumes/mongodb:/data/db
+    networks:
+      - backend-network
 
   redis:
     image: redis:5.0.3
@@ -21,4 +38,10 @@ services:
       - "6379:6379"
     command: redis-server --requirepass password123
     volumes:
-      - ./docker-volumes/redis:/data
+      - ./docker/docker-volumes/redis:/data
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    driver: bridge
