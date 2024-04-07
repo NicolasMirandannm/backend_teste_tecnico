@@ -73,4 +73,14 @@ public class UserSearchServiceUnitTest {
     
     Mockito.verify(userRepository).findByName(name);
   }
+  
+  @Test
+  void should_return_an_empty_list_when_users_not_found() {
+    var name = "Nicolas";
+    Mockito.when(userRepository.findByName(name)).thenReturn(null);
+    
+    var users = userSearchService.searchByName(name);
+    
+    Assertions.assertEquals(List.of(), users);
+  }
 }

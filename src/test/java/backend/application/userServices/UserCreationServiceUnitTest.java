@@ -2,6 +2,7 @@ package backend.application.userServices;
 
 import backend.application.addressServices.dto.AddressDto;
 import backend.application.userServices.creation.UserCreationServiceImpl;
+import backend.application.userServices.dto.UserCreationDto;
 import backend.application.userServices.dto.UserDto;
 import backend.application.userServices.dto.UserDtoMapper;
 import backend.comum.valueObjects.UniqueIdentifier;
@@ -28,7 +29,7 @@ public class UserCreationServiceUnitTest {
   private String name;
   private LocalDate birthDate;
   private AddressDto addressDto;
-  private UserDto userDto;
+  private UserCreationDto userDto;
   private User user;
   
   @InjectMocks
@@ -60,12 +61,10 @@ public class UserCreationServiceUnitTest {
       123
     );
     
-    userDto = new UserDto(
-      null,
+    userDto = new UserCreationDto(
       name,
       birthDate,
-      List.of(addressDto),
-      addressDto
+      List.of(addressDto)
     );
     
     var address = AddressBuilder

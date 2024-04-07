@@ -1,6 +1,7 @@
 package backend.application.addressServices;
 
 import backend.application.addressServices.creation.AddressCreationService;
+import backend.application.addressServices.dto.AddressCreationDto;
 import backend.application.addressServices.dto.AddressDto;
 import backend.application.addressServices.dto.AddressDtoMapper;
 import backend.comum.exception.ApplicationException;
@@ -27,7 +28,7 @@ public class AddressCreationServiceUnitTest {
   
   private User user;
   private UniqueIdentifier userId;
-  private AddressDto addressDto;
+  private AddressCreationDto addressDto;
   private Address address;
   
   @InjectMocks
@@ -46,8 +47,7 @@ public class AddressCreationServiceUnitTest {
   void setup() {
     MockitoAnnotations.openMocks(this);
     
-    addressDto = new AddressDto(
-      null,
+    addressDto = new AddressCreationDto(
       "Rua 1",
       "12345-678",
       "Campo Grande",

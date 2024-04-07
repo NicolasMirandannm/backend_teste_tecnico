@@ -7,7 +7,7 @@ import backend.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
+
 @RequiredArgsConstructor
 public abstract class AddressAbstractService<I,O> implements AddressApplicationService<I,O> {
   

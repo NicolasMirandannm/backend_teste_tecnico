@@ -1,6 +1,8 @@
 package backend.infra.rest;
 
 import backend.application.addressServices.AddressAbstractService;
+import backend.application.addressServices.creation.AddressCreation;
+import backend.application.addressServices.dto.AddressCreationDto;
 import backend.application.addressServices.dto.AddressDto;
 import backend.application.addressServices.search.AddressSearchService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,7 @@ import java.util.List;
 public class AddressRestController {
 
   private final AddressSearchService addressSearchService;
-  private final AddressAbstractService<AddressDto, AddressDto> addressCreationService;
+  private final AddressAbstractService<AddressCreationDto, AddressDto> addressCreationService;
   private final AddressAbstractService<AddressDto, Void> addressUpdateService;
   private final AddressAbstractService<String, Void> addressDeleteService;
 
@@ -29,7 +31,7 @@ public class AddressRestController {
   }
 
   @PostMapping("/{userId}")
-  public ResponseEntity<AddressDto> create(@PathVariable("userId") String userId, @RequestBody AddressDto addressDto) {
+  public ResponseEntity<AddressDto> create(@PathVariable("userId") String userId, @RequestBody AddressCreationDto addressDto) {
     return ResponseEntity.status(201).body(addressCreationService.perform(userId, addressDto));
   }
 

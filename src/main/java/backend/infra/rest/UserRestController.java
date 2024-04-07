@@ -2,6 +2,7 @@ package backend.infra.rest;
 
 import backend.application.userServices.creation.UserCreationService;
 import backend.application.userServices.delete.UserDeleteService;
+import backend.application.userServices.dto.UserCreationDto;
 import backend.application.userServices.dto.UserDto;
 import backend.application.userServices.search.UserSearchService;
 import backend.application.userServices.update.UserUpdateService;
@@ -37,7 +38,7 @@ public class UserRestController {
   }
 
   @PostMapping
-  public ResponseEntity<UserDto> create(@RequestBody UserDto userDto) {
+  public ResponseEntity<UserDto> create(@RequestBody UserCreationDto userDto) {
     return ResponseEntity.status(201).body(userCreationService.perform(userDto));
   }
 

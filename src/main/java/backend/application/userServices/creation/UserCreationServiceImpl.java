@@ -1,6 +1,7 @@
 package backend.application.userServices.creation;
 
 import backend.application.addressServices.dto.AddressDto;
+import backend.application.userServices.dto.UserCreationDto;
 import backend.application.userServices.dto.UserDto;
 import backend.application.userServices.dto.UserDtoMapper;
 import backend.domain.aggregate.user.User;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +27,7 @@ public class UserCreationServiceImpl implements UserCreationService {
   
   
   @Override
-  public UserDto perform(UserDto userDto) {
+  public UserDto perform(UserCreationDto userDto) {
     var addresses = getAdresses(userDto.getEnderecos());
 
     var user = userFactory.createNew(
@@ -42,7 +44,7 @@ public class UserCreationServiceImpl implements UserCreationService {
   private List<Address> getAdresses(List<AddressDto> addresses) {
     return addresses == null
       ? new ArrayList<>()
-      : addresses.stream().map(this::getAddress).toList();
+      : addresses.stream().map(this::getAddress).collect(Collectors.toList());
   }
   private Address getAddress(AddressDto addressDto) {
     return addressFactory.createNew(

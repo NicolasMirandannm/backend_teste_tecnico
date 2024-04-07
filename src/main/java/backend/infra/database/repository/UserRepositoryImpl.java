@@ -8,9 +8,11 @@ import backend.infra.database.mapper.Mapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
@@ -43,8 +45,9 @@ public class UserRepositoryImpl implements UserRepository {
   
   @Override
   public List<User> findByName(String name) {
-    var userDocuments = mongoTemplate.find(
-      query(where("fullName").alike(Example.of(name))), UserDocument.class);
-    return userDocuments.stream().map(mapper::toDomain).toList();
+    var query = new Query();
+    query.addCriteria(where("fullName").regex(name, "i"));
+    var userDocuments = mongoTemplate.find(query, UserDocument.class);
+    return userDocuments.stream().map(mapper::toDomain).collect(Collectors.toList());
   }
 }

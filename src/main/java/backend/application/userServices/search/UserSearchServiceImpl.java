@@ -8,7 +8,9 @@ import backend.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +31,9 @@ public class UserSearchServiceImpl implements UserSearchService {
   @Override
   public List<UserDto> searchByName(String name) {
     var users = userRepository.findByName(name);
-    return users.stream().map(userDtoMapper::mapToDto).toList();
+    if (users == null) {
+      return new ArrayList<>();
+    }
+    return users.stream().map(userDtoMapper::mapToDto).collect(Collectors.toList());
   }
 }

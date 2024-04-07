@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class UserMapper implements Mapper<UserDocument, User> {
   public User toDomain(UserDocument userDocument) {
     InfraException.whenIsNull(userDocument, "Cannot map a null user document to user.");
     var addresses = userDocument.getAddresses() != null
-      ? userDocument.getAddresses().stream().map(addressMapper::toDomain).toList()
+      ? userDocument.getAddresses().stream().map(addressMapper::toDomain).collect(Collectors.toList())
       : new ArrayList<Address>();
     var mainAddress = userDocument.getMainAddress() != null
       ? addressMapper.toDomain(userDocument.getMainAddress())
@@ -47,7 +48,7 @@ public class UserMapper implements Mapper<UserDocument, User> {
     var name = user.getFullName();
     var birthDate = user.getBirthDate().getValue();
     var addresses = user.getAddresses() != null
-      ? user.getAddresses().stream().map(addressMapper::toPersistence).toList()
+      ? user.getAddresses().stream().map(addressMapper::toPersistence).collect(Collectors.toList())
       : new ArrayList<AddressDocument>();
     var mainAddress = user.getMainAddress() != null
       ? addressMapper.toPersistence(user.getMainAddress())

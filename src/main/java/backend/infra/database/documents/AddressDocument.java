@@ -1,11 +1,13 @@
 package backend.infra.database.documents;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Objects;
 
 @Getter
+@Setter
 @Document("address")
 public class AddressDocument {
   

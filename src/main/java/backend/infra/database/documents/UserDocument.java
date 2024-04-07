@@ -1,6 +1,7 @@
 package backend.infra.database.documents;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Getter
+@Setter
 @Document("user")
 public class UserDocument {
   
